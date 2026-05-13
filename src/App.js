@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import JobCard from "./components/JobCard";
 import "./App.css";
 
 function App() {
@@ -11,23 +12,6 @@ function App() {
   useEffect(() => {
     fetchJobs();
   }, []);
-
-  // const fetchJobs = async () => {
-
-  //   await new Promise((resolve) =>
-  //     setTimeout(resolve, 3000)
-  //   );
-
-  //   const response = await fetch(
-  //     "https://jsonplaceholder.typicode.com/users"
-  //   );
-
-  //   const data = await response.json();
-
-  //   setJobs(data);
-
-  //   setLoading(false);
-  // };
 
   const fetchJobs = async () => {
     try {
@@ -63,6 +47,7 @@ function App() {
 
   return (
     <div
+      className="container"
       style={{
         backgroundColor: darkMode ? "#222" : "#fff",
         color: darkMode ? "#fff" : "#000",
@@ -70,51 +55,22 @@ function App() {
         padding: "20px",
       }}
     >
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        style={{
-          padding: "10px",
-          marginBottom: "20px",
-          borderRadius: "8px",
-          cursor: "pointer",
-        }}
-      >
+      <h1>Job Listing App</h1>
+      <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
         Toggle Dark Mode
       </button>
-      <div>
-        <h1>Job Listing App</h1>
+      <div className="top-section">
         <input
+          className="search-input"
           type="text"
           placeholder="Search jobs..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          style={{
-            padding: "10px",
-            width: "300px",
-            borderRadius: "8px",
-            border: "1px solid gray",
-            marginBottom: "20px",
-          }}
         />
-
-        {filteredJobs.map((job) => (
-          <div
-            key={job.id}
-            style={{
-              border: "1px solid gray",
-              padding: "10px",
-              margin: "10px",
-              borderRadius: "8px",
-            }}
-          >
-            <h3>{job.name}</h3>
-
-            <p>{job.email}</p>
-
-            <p>{job.company.name}</p>
-          </div>
-        ))}
       </div>
+      {filteredJobs.map((job) => (
+        <JobCard key={job.id} job={job} darkMode={darkMode} />
+      ))}
     </div>
   );
 }

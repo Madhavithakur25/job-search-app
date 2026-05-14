@@ -76,3 +76,8 @@ h1 {
   cursor: pointer;
   margin-top: 10px;
 }
+
+h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}

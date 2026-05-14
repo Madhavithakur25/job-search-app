@@ -8,11 +8,22 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [darkMode, setDarkMode] = useState(false);
-  const [savedJobs, setSavedJobs] = useState([]);
+  const [savedJobs, setSavedJobs] = useState(() => {
+    const storedJobs = localStorage.getItem("savedJobs");
+
+    return storedJobs ? JSON.parse(storedJobs) : [];
+  });
 
   useEffect(() => {
     fetchJobs();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem(
+      "savedJobs",
+      JSON.stringify(savedJobs)
+    );
+  }, [savedJobs]);
 
   const fetchJobs = async () => {
     try {
@@ -67,6 +78,7 @@ function App() {
       }}
     >
       <h1>Job Listing App</h1>
+      <h3>Saved Jobs: {savedJobs.length}</h3>
       <button className="toggle-btn" onClick={() => setDarkMode(!darkMode)}>
         Toggle Dark Mode
       </button>

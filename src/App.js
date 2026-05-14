@@ -68,9 +68,13 @@ function App() {
           onChange={(e) => setSearch(e.target.value)}
         />
       </div>
-      {filteredJobs.map((job) => (
-        <JobCard key={job.id} job={job} darkMode={darkMode} />
-      ))}
+      {filteredJobs.length > 0 ? (
+        filteredJobs.map((job) => (
+          <JobCard key={job.id} job={job} darkMode={darkMode} />
+        ))
+      ) : (
+        <h2>No jobs found</h2>
+      )}
     </div>
   );
 }

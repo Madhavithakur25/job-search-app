@@ -8,6 +8,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [darkMode, setDarkMode] = useState(false);
+  const [savedJobs, setSavedJobs] = useState([]);
 
   useEffect(() => {
     fetchJobs();
@@ -32,6 +33,16 @@ function App() {
       setError(err.message);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleSaveJob = (id) => { 
+    if (savedJobs.includes(id)) {
+      setSavedJobs(
+        savedJobs.filter((jobId) => jobId !== id)
+      );
+    } else {
+      setSavedJobs([...savedJobs, id]);
     }
   };
 
@@ -70,7 +81,13 @@ function App() {
       </div>
       {filteredJobs.length > 0 ? (
         filteredJobs.map((job) => (
-          <JobCard key={job.id} job={job} darkMode={darkMode} />
+          <JobCard
+            key={job.id}
+            job={job}
+            darkMode={darkMode}
+            savedJobs={savedJobs}
+            handleSaveJob={handleSaveJob}
+          />
         ))
       ) : (
         <h2>No jobs found</h2>
